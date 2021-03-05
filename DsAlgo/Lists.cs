@@ -191,7 +191,7 @@ namespace DsAlgo
             {
                 throw new ArgumentOutOfRangeException(nameof(arrayIndex));
             }
-            if (array.Length - 1 - arrayIndex < Count)
+            if (Count + arrayIndex > array.Length)
             {
                 throw new ArgumentException("The array is too small to fit the elements of this collection");
             }
