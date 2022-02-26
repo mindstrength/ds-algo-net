@@ -20,8 +20,8 @@ namespace DsAlgo.Tests
         {
             var list = new LinkedList<int>(new int[] {0, 1, 2});
             Assert.Equal(3, list.Count);
-            Assert.Equal(0, list.First.Value);
-            Assert.Equal(2, list.Last.Value);
+            Assert.Equal(0, list.First!.Value);
+            Assert.Equal(2, list.Last!.Value);
         }
 
         [Fact]
@@ -64,7 +64,7 @@ namespace DsAlgo.Tests
             string first = new String('a', 5), last = new String('a', 5);
             var list = new LinkedList<string> { first, last };
             var result = list.FindFirst(first);
-            Assert.Same(first, result.Value);
+            Assert.Same(first, result!.Value);
         }
 
         [Fact]
@@ -81,7 +81,7 @@ namespace DsAlgo.Tests
             string first = new String('a', 5), last = new String('a', 5);
             var list = new LinkedList<string> { first, last };
             var result = list.FindLast(last);
-            Assert.Same(last, result.Value);
+            Assert.Same(last, result!.Value);
         }
 
         [Fact]
@@ -90,20 +90,6 @@ namespace DsAlgo.Tests
             var list = new LinkedList<string> { "a" };
             var result = list.FindLast("b");
             Assert.Null(result);
-        }
-
-        [Fact]
-        public void AttachAfter_Node_AttachedNull()
-        {
-            var list = new LinkedList<int> { 1 };
-            Assert.Throws<ArgumentNullException>(() => list.AttachAfter(null, new LinkedList<int>.Node(2)));
-        }
-
-        [Fact]
-        public void AttachAfter_Node_DetachedNull()
-        {
-            var list = new LinkedList<int> { 1 };
-            Assert.Throws<ArgumentNullException>(() => list.AttachAfter(list.First, null));
         }
 
         [Fact]
@@ -117,7 +103,7 @@ namespace DsAlgo.Tests
         public void AttachAfter_Node_DetachedIsAttached()
         {
             var list = new LinkedList<int> { 1, 2 };
-            Assert.Throws<InvalidOperationException>(() => list.AttachAfter(list.First, list.Last));
+            Assert.Throws<InvalidOperationException>(() => list.AttachAfter(list.First!, list.Last!));
         }
 
         [Fact]
@@ -125,7 +111,7 @@ namespace DsAlgo.Tests
         {
             var list = new LinkedList<int> { 1 };
             var node = new LinkedList<int>.Node(2);
-            list.AttachAfter(list.Last, node);
+            list.AttachAfter(list.Last!, node);
             Assert.Equal(list.Last, node);
         }
 
@@ -134,22 +120,8 @@ namespace DsAlgo.Tests
         {
             var list = new LinkedList<int> { 1 };
             var item = 2;
-            list.AttachAfter(list.Last, item);
-            Assert.Equal(list.Last.Value, item);
-        }
-
-        [Fact]
-        public void AttachBefore_Node_AttachedNull()
-        {
-            var list = new LinkedList<int> { 1 };
-            Assert.Throws<ArgumentNullException>(() => list.AttachBefore(null, new LinkedList<int>.Node(2)));
-        }
-
-        [Fact]
-        public void AttachBefore_Node_DetachedNull()
-        {
-            var list = new LinkedList<int> { 1 };
-            Assert.Throws<ArgumentNullException>(() => list.AttachBefore(list.First, null));
+            list.AttachAfter(list.Last!, item);
+            Assert.Equal(list.Last!.Value, item);
         }
 
         [Fact]
@@ -163,7 +135,7 @@ namespace DsAlgo.Tests
         public void AttachBefore_Node_DetachedIsAttached()
         {
             var list = new LinkedList<int> { 1, 2 };
-            Assert.Throws<InvalidOperationException>(() => list.AttachBefore(list.Last, list.First));
+            Assert.Throws<InvalidOperationException>(() => list.AttachBefore(list.Last!, list.First!));
         }
 
         [Fact]
@@ -171,7 +143,7 @@ namespace DsAlgo.Tests
         {
             var list = new LinkedList<int> { 1 };
             var node = new LinkedList<int>.Node(2);
-            list.AttachBefore(list.First, node);
+            list.AttachBefore(list.First!, node);
             Assert.Equal(list.First, node);
         }
 
@@ -180,8 +152,8 @@ namespace DsAlgo.Tests
         {
             var list = new LinkedList<int> { 2 };
             var item = 1;
-            list.AttachBefore(list.First, item);
-            Assert.Equal(list.First.Value, item);
+            list.AttachBefore(list.First!, item);
+            Assert.Equal(list.First!.Value, item);
         }
 
         [Fact]
@@ -238,7 +210,7 @@ namespace DsAlgo.Tests
             Assert.Empty(list);
             Assert.Null(list.First);
             Assert.Null(list.Last);
-            Assert.True(node.Detached);
+            Assert.True(node!.Detached);
         }
 
         [Theory]
@@ -249,13 +221,6 @@ namespace DsAlgo.Tests
             var list = new LinkedList<int> { 1, 2 };
             var result = list.Contains(item);
             Assert.Equal(expected, result);
-        }
-
-        [Fact]
-        public void CopyTo_ArrayNull()
-        {
-            var list = new LinkedList<int>();
-            Assert.Throws<ArgumentNullException>(() => list.CopyTo(null, 0));
         }
 
         [Theory]
@@ -350,7 +315,7 @@ namespace DsAlgo.Tests
         {
             var list = new LinkedList<int> { 2 };
             list.Insert(0, 1);
-            Assert.Equal(1, list.First.Value);
+            Assert.Equal(1, list.First!.Value);
         }
 
         [Fact]
@@ -358,7 +323,7 @@ namespace DsAlgo.Tests
         {
             var list = new LinkedList<int> { 1 };
             list.Insert(list.Count, 2);
-            Assert.Equal(2, list.Last.Value);
+            Assert.Equal(2, list.Last!.Value);
         }
 
         [Fact]
@@ -387,7 +352,7 @@ namespace DsAlgo.Tests
             var list = new LinkedList<int> { 1 };
             var node = list.First;
             list.RemoveAt(0);
-            Assert.True(node.Detached);
+            Assert.True(node!.Detached);
         }
 
         [Fact]
@@ -403,8 +368,8 @@ namespace DsAlgo.Tests
         {
             var list = new LinkedList<int> { 1, 2 };
             var node = list.First;
-            list.Detach(node);
-            Assert.True(node.Detached);
+            list.Detach(node!);
+            Assert.True(node!.Detached);
             Assert.Collection<int>(
                 list,
                 (item) => Assert.Equal(2, item)
@@ -424,7 +389,7 @@ namespace DsAlgo.Tests
             var list = new LinkedList<int> { 1, 2 };
             var node = list.First;
             list.DetachFirst();
-            Assert.True(node.Detached);
+            Assert.True(node!.Detached);
             Assert.Collection<int>(
                 list,
                 (item) => Assert.Equal(2, item)
@@ -444,7 +409,7 @@ namespace DsAlgo.Tests
             var list = new LinkedList<int> { 1, 2 };
             var node = list.Last;
             list.DetachLast();
-            Assert.True(node.Detached);
+            Assert.True(node!.Detached);
             Assert.Collection<int>(
                 list,
                 (item) => Assert.Equal(1, item)
@@ -456,7 +421,7 @@ namespace DsAlgo.Tests
         {
             var list = new LinkedList<int> { 1, 2 };
             var node = list.Last;
-            Assert.Equal(1, node.Left.Value);
+            Assert.Equal(1, node!.Left!.Value);
             node = node.Left; // First.
             Assert.Null(node.Left);
         }
@@ -466,7 +431,7 @@ namespace DsAlgo.Tests
         {
             var list = new LinkedList<int> { 1, 2 };
             var node = list.First;
-            Assert.Equal(2, node.Right.Value);
+            Assert.Equal(2, node!.Right!.Value);
             node = node.Right; // Last.
             Assert.Null(node.Right);
         }

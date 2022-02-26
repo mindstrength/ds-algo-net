@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -11,8 +11,8 @@ namespace DsAlgo
         int Version { get; set; }
         public int Count { get; private set; }
         public bool IsReadOnly => false;
-        public Node First => Count > 0 ? Head.R : null;
-        public Node Last => Count > 0 ? Tail.L : null;
+        public Node? First => Count > 0 ? Head.R : null;
+        public Node? Last => Count > 0 ? Tail.L : null;
 
         public LinkedList()
         {
@@ -57,29 +57,29 @@ namespace DsAlgo
                 var cur = Head;
                 for (var i = 0; i <= index; ++i)
                 {
-                    cur = cur.R;
+                    cur = cur!.R;
                 }
-                return cur;
+                return cur!;
             }
             else
             {
                 var cur = Tail;
                 for (var i = bound - 1; i >= index; --i)
                 {
-                    cur = cur.L;
+                    cur = cur!.L;
                 }
-                return cur;
+                return cur!;
             }
         }
 
-        public Node FindFirst(T item) => FindFirstIndex(item).node;
+        public Node? FindFirst(T item) => FindFirstIndex(item).node;
 
-        (int index, Node node) FindFirstIndex(T item)
+        (int index, Node? node) FindFirstIndex(T item)
         {
             var i = 0;
             for (var cur = Head.R; cur != Tail; cur = cur.R)
             {
-                if (object.Equals(item, cur.Value))
+                if (object.Equals(item, cur!.Value))
                 {
                     return (i, cur);
                 }
@@ -88,14 +88,14 @@ namespace DsAlgo
             return (-1, null);
         }
 
-        public Node FindLast(T item) => FindLastIndex(item).node;
+        public Node? FindLast(T item) => FindLastIndex(item).node;
 
-        (int index, Node node) FindLastIndex(T item)
+        (int index, Node? node) FindLastIndex(T item)
         {
             var i = Count - 1;
             for (var cur = Tail.L; cur != Head; cur = cur.L)
             {
-                if (object.Equals(item, cur.Value))
+                if (object.Equals(item, cur!.Value))
                 {
                     return (i, cur);
                 }
@@ -106,15 +106,13 @@ namespace DsAlgo
 
         public void AttachAfter(Node attachedNode, Node detachedNode)
         {
-            Conditions.RequireNonNull(attachedNode, nameof(attachedNode));
-            Conditions.RequireNonNull(detachedNode, nameof(detachedNode));
             RequireAttached(attachedNode);
             RequireDetached(detachedNode);
 
             detachedNode.List = this;
             var old = attachedNode.R;
             Node.Link(attachedNode, detachedNode);
-            Node.Link(detachedNode, old);
+            Node.Link(detachedNode, old!);
             ++Count;
             ++Version;
         }
@@ -128,15 +126,13 @@ namespace DsAlgo
 
         public void AttachBefore(Node attachedNode, Node detachedNode)
         {
-            Conditions.RequireNonNull(attachedNode, nameof(attachedNode));
-            Conditions.RequireNonNull(detachedNode, nameof(detachedNode));
             RequireAttached(attachedNode);
             RequireDetached(detachedNode);
 
             detachedNode.List = this;
             var old = attachedNode.L;
             Node.Link(detachedNode, attachedNode);
-            Node.Link(old, detachedNode);
+            Node.Link(old!, detachedNode);
             ++Count;
             ++Version;
         }
@@ -168,7 +164,7 @@ namespace DsAlgo
 
         public T this[int index]
         {
-            get => FindAt(index).Value;
+            get => FindAt(index).Value!;
             set => FindAt(index).Value = value;
         }
 
@@ -186,7 +182,6 @@ namespace DsAlgo
 
         public void CopyTo(T[] array, int arrayIndex)
         {
-            Conditions.RequireNonNull(array, nameof(array));
             if (arrayIndex < 0 || arrayIndex >= array.Length)
             {
                 throw new ArgumentOutOfRangeException(nameof(arrayIndex));
@@ -198,7 +193,7 @@ namespace DsAlgo
 
             for (var cur = Head.R; cur != Tail; cur = cur.R)
             {
-                array[arrayIndex++] = cur.Value;
+                array[arrayIndex++] = cur!.Value!;
             }
         }
 
@@ -221,7 +216,7 @@ namespace DsAlgo
 
         void DetachNode(Node node)
         {
-            Node.Link(node.L, node.R);
+            Node.Link(node.L!, node.R!);
             node.Detach();
             --Count;
             ++Version;
@@ -242,7 +237,6 @@ namespace DsAlgo
 
         public void Detach(Node attachedNode)
         {
-            Conditions.RequireNonNull(attachedNode, nameof(attachedNode));
             RequireAttached(attachedNode);
             DetachNode(attachedNode);
         }
@@ -253,7 +247,7 @@ namespace DsAlgo
             {
                 throw new InvalidOperationException("The collection is empty");
             }
-            DetachNode(First);
+            DetachNode(First!);
         }
 
         public void DetachLast()
@@ -262,21 +256,21 @@ namespace DsAlgo
             {
                 throw new InvalidOperationException("The collection is empty");
             }
-            DetachNode(Last);
+            DetachNode(Last!);
         }
 
 
         public sealed class Node
         {
-            internal Node L { get; set; }
-            internal Node R { get; set; }
-            internal LinkedList<T> List { get; set; }
-            public T Value { get; set; }
-            public Node Left => List?.Head == L ? null : L;
-            public Node Right => List?.Tail == R ? null : R;
+            internal Node? L { get; set; }
+            internal Node? R { get; set; }
+            internal LinkedList<T>? List { get; set; }
+            public T? Value { get; set; }
+            public Node? Left => List?.Head == L ? null : L;
+            public Node? Right => List?.Tail == R ? null : R;
             public bool Detached => List is null && L is null && R is null;
 
-            public Node()
+            internal Node()
             {
                 Value = default(T);
             }
@@ -306,8 +300,8 @@ namespace DsAlgo
             LinkedList<T> List { get; set; }
             Node Cursor { get; set; }
             int Version { get; set; }
-            public T Current => Cursor.Value;
-            object IEnumerator.Current => Current;
+            public T Current => Cursor.Value!;
+            object IEnumerator.Current => Current!;
 
             internal Enumerator(LinkedList<T> list)
             {
@@ -332,7 +326,7 @@ namespace DsAlgo
                     return false;
                 }
 
-                Cursor = Cursor.R;
+                Cursor = Cursor.R!;
                 return true;
             }
 
