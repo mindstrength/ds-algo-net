@@ -47,7 +47,6 @@ namespace DsAlgo.Tests
             var heap = new Heap<int>(4, Comparer<int>.Default, new List<int> { 1, 2, 3, 4 });
             heap.Clear();
             Assert.Empty(heap);
-            Assert.Equal(0, heap.Count);
         }
 
         [Theory]
@@ -150,7 +149,7 @@ namespace DsAlgo.Tests
             {
                 Assert.Equal(i, heap.Poll());
             }
-            Assert.Equal(0, heap.Count);
+            Assert.Empty(heap);
         }
 
         [Theory]
