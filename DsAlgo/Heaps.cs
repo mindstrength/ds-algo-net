@@ -144,6 +144,20 @@ namespace DsAlgo
             return false;
         }
 
+        internal bool RemoveReference(Object reference)
+        {
+            for (var i = 0; i < size; ++i)
+            {
+                if (object.ReferenceEquals(store[i], reference))
+                {
+                    store[i] = store[--size];
+                    HeapifyDown();
+                    return true;
+                }
+            }
+            return false;
+        }
+
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
