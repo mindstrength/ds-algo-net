@@ -81,8 +81,8 @@ namespace DsAlgo.Tests
                 last = value;
                 heap.Add(value);
             }
-            Assert.Equal(last, heap.PopStack());
             Assert.Equal(min, heap.PeekHeap());
+            Assert.Equal(last, heap.PopStack());
         }
 
          [Fact]
