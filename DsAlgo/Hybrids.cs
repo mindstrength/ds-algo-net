@@ -72,7 +72,7 @@ namespace DsAlgo
         public T PeekHeap()
         {
             // O(1)
-            return heap.Poll().Value; // throws InvalidOperationException if empty.
+            return heap.Peek().Value; // throws InvalidOperationException if empty.
         }
 
         public T PopStack()

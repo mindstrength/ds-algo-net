@@ -38,6 +38,7 @@ namespace DsAlgo.Tests
                 heap.Add(value);
             }
             Assert.Equal(last, heap.PeekStack());
+            Assert.Equal(count, heap.Count);
         }
 
         [Fact]
@@ -59,6 +60,7 @@ namespace DsAlgo.Tests
                 heap.Add(value);
             }
             Assert.Equal(min, heap.PeekHeap());
+            Assert.Equal(count, heap.Count);
         }
 
         [Fact]
