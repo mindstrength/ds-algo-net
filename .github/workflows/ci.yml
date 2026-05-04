@@ -11,10 +11,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@v5
       with:
         dotnet-version: '10.x'
 
@@ -26,11 +26,3 @@ jobs:
 
     - name: Test with coverage
       run: dotnet test --collect:"XPlat Code Coverage" --no-build
-
-    - name: Upload coverage reports
-      uses: codecov/codecov-action@v3
-      with:
-        files: ./DsAlgo.Tests/TestResults/**/coverage.cobertura.xml
-        flags: unittests
-        name: codecov-umbrella
-        fail_ci_if_error: false
