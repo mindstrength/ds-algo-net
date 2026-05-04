@@ -26,3 +26,6 @@ jobs:
 
     - name: Test with coverage
       run: dotnet test --collect:"XPlat Code Coverage" --no-build
+
+    - name: Print code coverage
+      run: coverage=$(find ./**/TestResults -name 'coverage.cobertura.xml' | head -n1) && awk '/<coverage[[:space:]]/ { match($0, /<coverage[^>]*>/); if (RSTART) print substr($0, RSTART, RLENGTH) }'  "$coverage"
