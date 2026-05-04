@@ -4,10 +4,6 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
-    <!-- Enable code coverage collection -->
-    <CollectCoverageFor>*</CollectCoverageFor>
-    <CoverletOutput>../CoverageResults/</CoverletOutput>
-    <CoverletOutputFormat>cobertura</CoverletOutputFormat>
   </PropertyGroup>
 
   <ItemGroup>
